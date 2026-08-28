@@ -6,6 +6,7 @@ import { IconArrowLeft, IconCheck } from "./icons";
 import {
   useSettings,
   NOTE_BADGE_ICONS,
+  NOTE_BADGE_ICON_CATEGORIES,
   BADGE_POSITIONS,
   BODY_COLOR_PRESETS,
   type NoteBadgeIcon,
@@ -17,6 +18,48 @@ import { BadgeIcon as PreviewIcon } from "./BadgeIcon";
 
 function BadgeIconPreview({ name, className }: { name: NoteBadgeIcon; className?: string }) {
   return <PreviewIcon name={name} className={className} />;
+}
+
+function IconTile({
+  opt,
+  active,
+  onClick,
+}: {
+  opt: { id: NoteBadgeIcon; label: string };
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`relative flex aspect-square items-center justify-center rounded-xl border transition-all ${
+        active
+          ? "border-white bg-white/20 text-white shadow-[0_0_0_2px_rgba(255,255,255,0.18)]"
+          : "border-white/10 bg-white/[0.04] text-white/65 hover:border-white/30 hover:text-white"
+      }`}
+      aria-label={opt.label}
+      title={opt.label}
+    >
+      <BadgeIconPreview name={opt.id} />
+      {active && (
+        <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-white shadow">
+          <svg
+            width={9}
+            height={9}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#0b0b0f"
+            strokeWidth={3.5}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M20 6 9 17l-5-5" />
+          </svg>
+        </span>
+      )}
+    </button>
+  );
 }
 
 export default function SettingsScreen() {
@@ -615,6 +658,11 @@ function TagBlock({
     const rest = NOTE_BADGE_ICONS.filter((o) => o.id !== icon).slice(0, 13);
     return selected ? [selected, ...rest] : NOTE_BADGE_ICONS.slice(0, 14);
   })();
+  // Grouped by category for the expanded "all icons" view.
+  const iconsByCategory = NOTE_BADGE_ICON_CATEGORIES.map((cat) => ({
+    ...cat,
+    icons: NOTE_BADGE_ICONS.filter((o) => o.category === cat.id),
+  })).filter((cat) => cat.icons.length > 0);
   const show = showIcon || showText;
   return (
     <Section title={title}>
@@ -654,43 +702,38 @@ function TagBlock({
                 : `Показать все (${NOTE_BADGE_ICONS.length})`}
             </button>
           </div>
-          <div className="grid grid-cols-7 gap-2">
-            {visibleIcons.map((opt) => {
-              const active = icon === opt.id;
-              return (
-                <button
+          {iconsExpanded ? (
+            <div className="flex flex-col gap-3.5">
+              {iconsByCategory.map((cat) => (
+                <div key={cat.id}>
+                  <div className="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">
+                    {cat.label}
+                  </div>
+                  <div className="grid grid-cols-7 gap-2">
+                    {cat.icons.map((opt) => (
+                      <IconTile
+                        key={opt.id}
+                        opt={opt}
+                        active={icon === opt.id}
+                        onClick={() => setIcon(opt.id)}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-7 gap-2">
+              {visibleIcons.map((opt) => (
+                <IconTile
                   key={opt.id}
-                  type="button"
+                  opt={opt}
+                  active={icon === opt.id}
                   onClick={() => setIcon(opt.id)}
-                  className={`relative flex aspect-square items-center justify-center rounded-xl border transition-all ${
-                    active
-                      ? "border-white bg-white/20 text-white shadow-[0_0_0_2px_rgba(255,255,255,0.18)]"
-                      : "border-white/10 bg-white/[0.04] text-white/65 hover:border-white/30 hover:text-white"
-                  }`}
-                  aria-label={opt.label}
-                  title={opt.label}
-                >
-                  <BadgeIconPreview name={opt.id} />
-                  {active && (
-                    <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-white shadow">
-                      <svg
-                        width={9}
-                        height={9}
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#0b0b0f"
-                        strokeWidth={3.5}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M20 6 9 17l-5-5" />
-                      </svg>
-                    </span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
+                />
+              ))}
+            </div>
+          )}
 
           <SubLabel className="mt-4">Текст метки</SubLabel>
           <input
