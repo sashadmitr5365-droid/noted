@@ -15,7 +15,28 @@ import {
   type BackgroundId,
 } from "./backgrounds";
 
+export type NoteBadgeIconCategory =
+  | "nature"
+  | "food"
+  | "action"
+  | "work"
+  | "comm"
+  | "vibes";
+
+export const NOTE_BADGE_ICON_CATEGORIES: {
+  id: NoteBadgeIconCategory;
+  label: string;
+}[] = [
+  { id: "nature", label: "Природа" },
+  { id: "food", label: "Еда и напитки" },
+  { id: "action", label: "Движение и спорт" },
+  { id: "work", label: "Дело и деньги" },
+  { id: "comm", label: "Люди и связь" },
+  { id: "vibes", label: "Настроение" },
+];
+
 export type NoteBadgeIcon =
+  // classic set
   | "sparkle"
   | "note"
   | "list"
@@ -47,41 +68,157 @@ export type NoteBadgeIcon =
   | "map"
   | "search"
   | "send"
-  | "mic";
+  | "mic"
+  // nature
+  | "cloud"
+  | "rain"
+  | "snowflake"
+  | "wind"
+  | "rainbow"
+  | "droplet"
+  | "umbrella"
+  | "pine"
+  | "flower"
+  | "bug"
+  | "feather"
+  // food & drinks
+  | "coffee"
+  | "pizza"
+  | "apple"
+  | "cake"
+  | "beer"
+  | "wine"
+  | "fish"
+  // action & sport
+  | "rocket"
+  | "bike"
+  | "car"
+  | "plane"
+  | "anchor"
+  | "gamepad"
+  | "dice"
+  | "trophy"
+  | "medal"
+  | "dumbbell"
+  // work & money
+  | "briefcase"
+  | "wallet"
+  | "banknote"
+  | "percent"
+  | "chart"
+  | "lightbulb"
+  | "key"
+  | "lock"
+  | "link"
+  | "paperclip"
+  // people & comms
+  | "phone"
+  | "mail"
+  | "chat"
+  | "eye"
+  | "film"
+  | "headphones"
+  // vibes
+  | "crown"
+  | "gem"
+  | "smile"
+  | "party"
+  | "sparkles"
+  | "infinity";
 
-export const NOTE_BADGE_ICONS: { id: NoteBadgeIcon; label: string }[] = [
-  { id: "sparkle", label: "Искра" },
-  { id: "note", label: "Заметка" },
-  { id: "list", label: "Список" },
-  { id: "star", label: "Звезда" },
-  { id: "bolt", label: "Молния" },
-  { id: "moon", label: "Луна" },
-  { id: "sun", label: "Солнце" },
-  { id: "leaf", label: "Лист" },
-  { id: "flame", label: "Пламя" },
-  { id: "heart", label: "Сердце" },
-  { id: "bookmark", label: "Закладка" },
-  { id: "tag", label: "Тег" },
-  { id: "flag", label: "Флаг" },
-  { id: "book", label: "Книга" },
-  { id: "ghost", label: "Дух" },
-  { id: "music", label: "Музыка" },
-  { id: "compass", label: "Компас" },
-  { id: "globe", label: "Глобус" },
-  { id: "camera", label: "Камера" },
-  { id: "wave", label: "Волна" },
-  { id: "palette", label: "Палитра" },
-  { id: "code", label: "Код" },
-  { id: "target", label: "Цель" },
-  { id: "shield", label: "Щит" },
-  { id: "gift", label: "Подарок" },
-  { id: "bell", label: "Колокол" },
-  { id: "clock", label: "Часы" },
-  { id: "calendar", label: "Календарь" },
-  { id: "map", label: "Карта" },
-  { id: "search", label: "Поиск" },
-  { id: "send", label: "Отправить" },
-  { id: "mic", label: "Микрофон" },
+export const NOTE_BADGE_ICONS: {
+  id: NoteBadgeIcon;
+  label: string;
+  category: NoteBadgeIconCategory;
+}[] = [
+  { id: "sparkle", label: "Искра", category: "vibes" },
+  { id: "note", label: "Заметка", category: "work" },
+  { id: "list", label: "Список", category: "work" },
+  { id: "star", label: "Звезда", category: "nature" },
+  { id: "bolt", label: "Молния", category: "action" },
+  { id: "moon", label: "Луна", category: "nature" },
+  { id: "sun", label: "Солнце", category: "nature" },
+  { id: "leaf", label: "Лист", category: "nature" },
+  { id: "flame", label: "Пламя", category: "nature" },
+  { id: "heart", label: "Сердце", category: "vibes" },
+  { id: "bookmark", label: "Закладка", category: "vibes" },
+  { id: "tag", label: "Тег", category: "vibes" },
+  { id: "flag", label: "Флаг", category: "action" },
+  { id: "book", label: "Книга", category: "work" },
+  { id: "ghost", label: "Дух", category: "vibes" },
+  { id: "music", label: "Музыка", category: "comm" },
+  { id: "compass", label: "Компас", category: "action" },
+  { id: "globe", label: "Глобус", category: "action" },
+  { id: "camera", label: "Камера", category: "comm" },
+  { id: "wave", label: "Волна", category: "action" },
+  { id: "palette", label: "Палитра", category: "vibes" },
+  { id: "code", label: "Код", category: "work" },
+  { id: "target", label: "Цель", category: "action" },
+  { id: "shield", label: "Щит", category: "vibes" },
+  { id: "gift", label: "Подарок", category: "vibes" },
+  { id: "bell", label: "Колокол", category: "comm" },
+  { id: "clock", label: "Часы", category: "work" },
+  { id: "calendar", label: "Календарь", category: "work" },
+  { id: "map", label: "Карта", category: "action" },
+  { id: "search", label: "Поиск", category: "comm" },
+  { id: "send", label: "Отправить", category: "comm" },
+  { id: "mic", label: "Микрофон", category: "comm" },
+  // nature
+  { id: "cloud", label: "Облако", category: "nature" },
+  { id: "rain", label: "Дождь", category: "nature" },
+  { id: "snowflake", label: "Снежинка", category: "nature" },
+  { id: "wind", label: "Ветер", category: "nature" },
+  { id: "rainbow", label: "Радуга", category: "nature" },
+  { id: "droplet", label: "Капля", category: "nature" },
+  { id: "umbrella", label: "Зонт", category: "nature" },
+  { id: "pine", label: "Ёлка", category: "nature" },
+  { id: "flower", label: "Цветок", category: "nature" },
+  { id: "bug", label: "Жук", category: "nature" },
+  { id: "feather", label: "Перо", category: "nature" },
+  // food & drinks
+  { id: "coffee", label: "Кофе", category: "food" },
+  { id: "pizza", label: "Пицца", category: "food" },
+  { id: "apple", label: "Яблоко", category: "food" },
+  { id: "cake", label: "Торт", category: "food" },
+  { id: "beer", label: "Пиво", category: "food" },
+  { id: "wine", label: "Вино", category: "food" },
+  { id: "fish", label: "Рыба", category: "food" },
+  // action & sport
+  { id: "rocket", label: "Ракета", category: "action" },
+  { id: "bike", label: "Велосипед", category: "action" },
+  { id: "car", label: "Машина", category: "action" },
+  { id: "plane", label: "Самолёт", category: "action" },
+  { id: "anchor", label: "Якорь", category: "action" },
+  { id: "gamepad", label: "Игра", category: "action" },
+  { id: "dice", label: "Кости", category: "action" },
+  { id: "trophy", label: "Кубок", category: "action" },
+  { id: "medal", label: "Медаль", category: "action" },
+  { id: "dumbbell", label: "Спорт", category: "action" },
+  // work & money
+  { id: "briefcase", label: "Дело", category: "work" },
+  { id: "wallet", label: "Кошелёк", category: "work" },
+  { id: "banknote", label: "Деньги", category: "work" },
+  { id: "percent", label: "Скидка", category: "work" },
+  { id: "chart", label: "График", category: "work" },
+  { id: "lightbulb", label: "Идея", category: "work" },
+  { id: "key", label: "Ключ", category: "work" },
+  { id: "lock", label: "Замок", category: "work" },
+  { id: "link", label: "Ссылка", category: "work" },
+  { id: "paperclip", label: "Скрепка", category: "work" },
+  // people & comms
+  { id: "phone", label: "Телефон", category: "comm" },
+  { id: "mail", label: "Письмо", category: "comm" },
+  { id: "chat", label: "Чат", category: "comm" },
+  { id: "eye", label: "Глаз", category: "comm" },
+  { id: "film", label: "Фильм", category: "comm" },
+  { id: "headphones", label: "Наушники", category: "comm" },
+  // vibes
+  { id: "crown", label: "Корона", category: "vibes" },
+  { id: "gem", label: "Кристалл", category: "vibes" },
+  { id: "smile", label: "Смайлик", category: "vibes" },
+  { id: "party", label: "Вечеринка", category: "vibes" },
+  { id: "sparkles", label: "Искры", category: "vibes" },
+  { id: "infinity", label: "Бесконечность", category: "vibes" },
 ];
 export type BadgePosition = "top-right" | "top-left" | "bottom-right" | "bottom-left";
 
